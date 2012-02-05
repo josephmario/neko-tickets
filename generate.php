@@ -61,9 +61,22 @@ while($string = fgets($fp))
   $left = $layout[$position]['x'];
   $top = $layout[$position]['y'];
 
-  if(is_file($opts['directory'] . '/template.png'))
+  if(empty($config['element']['background']))
   {
-    $pdf->Image($opts['directory'] . '/template.png', $left, $top, $layout[$position]['w']);
+    $file = 'template.png';
+  }
+  elseif($config['element']['background']{0} == '@')
+  {
+    $file = $row[substr($config['element']['background'], 1)];
+  }
+  else
+  {
+    $file = $config['element']['background'];
+  }
+
+  if(is_file($opts['directory'] . '/' . $file))
+  {
+    $pdf->Image($opts['directory'] . '/' . $file, $left, $top, $layout[$position]['w']);
   }
 
   foreach($config['areas'] as $area)
@@ -75,7 +88,7 @@ while($string = fgets($fp))
 
     if(!empty($area['color']))
     {
-      $pdf->SetTextColor($area['color'][0], $area['color'][1], $area['color'][2]); // TODO
+      $pdf->SetTextColor($area['color'][0], $area['color'][1], $area['color'][2]);
     }
 
     if(isset($area['left']))
