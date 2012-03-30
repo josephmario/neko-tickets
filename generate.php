@@ -140,7 +140,7 @@ while($string = fgets($fp))
         $line['text'],
         0, // TODO border
         (@$line['line'] == 'this' ? 0 : 2),
-        'L' // TODO align
+        (empty($line['align']) ? 'L' : strtoupper(substr($line['align'], 0, 1)))
       );
     }
 
